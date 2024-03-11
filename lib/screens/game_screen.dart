@@ -17,6 +17,7 @@ class _GameScreenState extends State<GameScreen> {
   var guess = 0;
   var target = 0;
   var score = 0;
+  TextEditingController guessController = TextEditingController();
 
   void updateGuess(int newGuess) {
     setState(() {
@@ -37,11 +38,15 @@ class _GameScreenState extends State<GameScreen> {
       });
     }
     updateTarget(Random().nextInt(10) + 1);
+    guessController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wavelength'),
+      ),
       body: Column(
         children: [
           SizedBox(height: 60),
@@ -49,6 +54,7 @@ class _GameScreenState extends State<GameScreen> {
           Text('The target is $target'),
           Text('Your score is $score'),
           TextField(
+            controller: guessController,
             onChanged: (value) {
               updateGuess(int.parse(value));
             },
