@@ -14,11 +14,12 @@ class QuestionWidget extends StatelessWidget {
       children: [
         Text(
           category,
-          style: Theme.of(context).textTheme.labelLarge,
+          style: Theme.of(context).textTheme.displayLarge,
         ),
         Text(
           ('The scale in use is $subCategory!'),
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.displaySmall,
+          textAlign: TextAlign.center,
         ),
       ],
     );

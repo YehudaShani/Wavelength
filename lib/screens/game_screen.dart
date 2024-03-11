@@ -17,6 +17,7 @@ class _GameScreenState extends State<GameScreen> {
   var guess = 0;
   var target = 0;
   var score = 0;
+  bool isGuessing = false;
   TextEditingController guessController = TextEditingController();
 
   void updateGuess(int newGuess) {
@@ -39,6 +40,13 @@ class _GameScreenState extends State<GameScreen> {
     }
     updateTarget(Random().nextInt(10) + 1);
     guessController.clear();
+    changePlayer();
+  }
+
+  void changePlayer() {
+    setState(() {
+      isGuessing = !isGuessing;
+    });
   }
 
   @override
@@ -50,16 +58,23 @@ class _GameScreenState extends State<GameScreen> {
       body: Column(
         children: [
           SizedBox(height: 60),
+          Text(
+            'Your score is $score',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.left,
+          ),
           QuestionWidget(category: "Pets", subCategory: "Cuteness"),
           Text('The target is $target'),
-          Text('Your score is $score'),
           TextField(
             controller: guessController,
             onChanged: (value) {
               updateGuess(int.parse(value));
             },
           ),
-          ElevatedButton(onPressed: checkGuess, child: Text('Check Guess')),
+          isGuessing
+              ? ElevatedButton(
+                  onPressed: checkGuess, child: Text('Check Guess'))
+              : IconButton(onPressed: changePlayer, icon: Icon(Icons.check)),
         ],
       ),
     );
