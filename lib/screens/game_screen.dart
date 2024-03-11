@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/questions.dart';
-import 'package:wavelength/widgets/target_guess.dart';
 
 Map<String, dynamic> questionsData = wavelengthData;
 
@@ -17,17 +16,27 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   var guess = 0;
   var target = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    target = Random().nextInt(10) + 1;
-  }
+  var score = 0;
 
   void updateGuess(int newGuess) {
     setState(() {
       guess = newGuess;
     });
+  }
+
+  void updateTarget(int newTarget) {
+    setState(() {
+      target = newTarget;
+    });
+  }
+
+  void checkGuess() {
+    if (guess == target) {
+      setState(() {
+        score += 1;
+      });
+    }
+    updateTarget(Random().nextInt(10) + 1);
   }
 
   @override
@@ -37,8 +46,14 @@ class _GameScreenState extends State<GameScreen> {
         children: [
           SizedBox(height: 60),
           QuestionWidget(category: "Pets", subCategory: "Cuteness"),
-          Text('The guess is: $guess'),
-          Text('submit button'),
+          Text('The target is $target'),
+          Text('Your score is $score'),
+          TextField(
+            onChanged: (value) {
+              updateGuess(int.parse(value));
+            },
+          ),
+          ElevatedButton(onPressed: checkGuess, child: Text('Check Guess')),
         ],
       ),
     );
