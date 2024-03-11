@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/questions.dart';
+import 'package:wavelength/widgets/radial_slider.dart';
 
 Map<String, dynamic> questionsData = wavelengthData;
 
@@ -57,24 +58,20 @@ class _GameScreenState extends State<GameScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 60),
           Text(
             'Your score is $score',
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.left,
           ),
-          QuestionWidget(category: "Pets", subCategory: "Cuteness"),
+          const QuestionWidget(category: "Pets", subCategory: "Cuteness"),
           Text('The target is $target'),
-          TextField(
-            controller: guessController,
-            onChanged: (value) {
-              updateGuess(int.parse(value));
-            },
-          ),
+          Text('your guess is $guess'),
           isGuessing
-              ? ElevatedButton(
-                  onPressed: checkGuess, child: Text('Check Guess'))
-              : IconButton(onPressed: changePlayer, icon: Icon(Icons.check)),
+              ? Column(children: [
+                  RadialSlider(onChange: updateGuess),
+                  ElevatedButton(onPressed: checkGuess, child: const Text('Submit')),
+                ])
+              : IconButton(onPressed: changePlayer, icon: const Icon(Icons.check)),
         ],
       ),
     );
