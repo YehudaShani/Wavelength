@@ -9,3 +9,19 @@ List<List<String>> makeQuestionList(Map<String, dynamic> questionsData) {
   }
   return questionList;
 }
+
+String getQuestionTopic(List<String> question) {
+  return question[0];
+}
+
+String getQuestionScale(List<String> question) {
+  return question[1];
+}
+
+String getQuestionBottomLabel(List<String> question) {
+  return question[2];
+}
+
+String getQuestionTopLabel(List<String> question) {
+  return question[3];
+}

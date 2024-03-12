@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class RadialSlider extends StatefulWidget {
-  const RadialSlider({super.key, required this.onChange});
+  const RadialSlider(
+      {super.key,
+      required this.onChange,
+      required this.bottomLabel,
+      required this.topLabel});
   final Function onChange;
+  final String bottomLabel;
+  final String topLabel;
 
   @override
   State<RadialSlider> createState() => _RadialSliderState();
@@ -45,22 +51,20 @@ class _RadialSliderState extends State<RadialSlider> {
           Center(child: slider),
           Positioned(
             bottom: 20,
-            left: 60,
-            child: Center(
-              child: Text(
-                'Minutes',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 24,
-                ),
+            left: 30,
+            child: Text(
+              widget.bottomLabel,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 24,
               ),
             ),
           ),
           Positioned(
             bottom: 20,
-            right: 80,
+            right: 60,
             child: Text(
-              'Other',
+              widget.topLabel,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: 24,

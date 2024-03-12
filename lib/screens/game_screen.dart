@@ -61,6 +61,11 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String topic = getQuestionTopic(questionsData[0]);
+    String scale = getQuestionScale(questionsData[0]);
+    String bottomLabel = getQuestionBottomLabel(questionsData[0]);
+    String topLabel = getQuestionTopLabel(questionsData[0]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wavelength'),
@@ -72,12 +77,15 @@ class _GameScreenState extends State<GameScreen> {
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.left,
           ),
-          const QuestionWidget(category: "Pets", subCategory: "Cuteness"),
+          QuestionWidget(category: topic, subCategory: scale),
           Text('The target is $target'),
           Text('your guess is $guess'),
           isGuessing
               ? Column(children: [
-                  RadialSlider(onChange: updateGuess),
+                  RadialSlider(
+                      onChange: updateGuess,
+                      bottomLabel: bottomLabel,
+                      topLabel: topLabel),
                   ElevatedButton(
                       onPressed: checkGuess, child: const Text('Submit')),
                 ])
