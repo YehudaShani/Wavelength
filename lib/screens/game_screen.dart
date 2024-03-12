@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/questions.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
+import 'package:wavelength/utils/question_utils.dart';
 
-Map<String, dynamic> questionsData = wavelengthData;
+List<List<String>> questionsData = makeQuestionList(wavelengthData);
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -19,7 +20,16 @@ class _GameScreenState extends State<GameScreen> {
   var target = 0;
   var score = 0;
   bool isGuessing = false;
-  TextEditingController guessController = TextEditingController();
+  List<List<String>> questionsData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateTarget(Random().nextInt(10) + 1);
+    questionsData = makeQuestionList(wavelengthData);
+    questionsData.shuffle();
+    print(questionsData);
+  }
 
   void updateGuess(int newGuess) {
     setState(() {
@@ -40,7 +50,6 @@ class _GameScreenState extends State<GameScreen> {
       });
     }
     updateTarget(Random().nextInt(10) + 1);
-    guessController.clear();
     changePlayer();
   }
 
@@ -69,9 +78,11 @@ class _GameScreenState extends State<GameScreen> {
           isGuessing
               ? Column(children: [
                   RadialSlider(onChange: updateGuess),
-                  ElevatedButton(onPressed: checkGuess, child: const Text('Submit')),
+                  ElevatedButton(
+                      onPressed: checkGuess, child: const Text('Submit')),
                 ])
-              : IconButton(onPressed: changePlayer, icon: const Icon(Icons.check)),
+              : IconButton(
+                  onPressed: changePlayer, icon: const Icon(Icons.check)),
         ],
       ),
     );
