@@ -25,11 +25,14 @@ class _RadialSliderState extends State<RadialSlider> {
           },
         ),
         size: 300,
-        // customWidths: CustomSliderWidths(progressBarWidth: 10),
-        // customColors: CustomSliderColors(
-        //   progressBarColors: [Theme.of(context).colorScheme.primary],
-        //   trackColor: Theme.of(context).colorScheme.secondary,
-        // ),
+        customWidths: CustomSliderWidths(progressBarWidth: 20),
+        customColors: CustomSliderColors(
+          progressBarColors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.secondary
+          ],
+          trackColor: Theme.of(context).colorScheme.secondary,
+        ),
       ),
       onChange: (double value) {
         widget.onChange(value.toInt());
