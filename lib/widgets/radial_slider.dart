@@ -51,24 +51,29 @@ class _RadialSliderState extends State<RadialSlider> {
           bottom: 20,
           left: 0,
           right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                widget.bottomLabel,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 24,
+          child: FittedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(width: 20),
+                Text(
+                  widget.bottomLabel,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-              Text(
-                widget.topLabel,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 24,
+                SizedBox(width: 30),
+                Text(
+                  widget.topLabel,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(width: 20),
+              ],
+            ),
           ),
         ),
       ],

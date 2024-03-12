@@ -51,12 +51,23 @@ class _GameScreenState extends State<GameScreen> {
     }
     updateTarget(Random().nextInt(10) + 1);
     changePlayer();
+    nextQuestion();
   }
 
   void changePlayer() {
     setState(() {
       isGuessing = !isGuessing;
     });
+  }
+
+  void nextQuestion() {
+    setState(() {
+      questionsData.removeAt(0);
+    });
+    if (questionsData.isEmpty) {
+      questionsData = makeQuestionList(wavelengthData);
+      questionsData.shuffle();
+    }
   }
 
   @override
