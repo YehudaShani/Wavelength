@@ -19,9 +19,9 @@ String getQuestionScale(List<String> question) {
 }
 
 String getQuestionBottomLabel(List<String> question) {
-  return question[2];
+  return question[3];
 }
 
 String getQuestionTopLabel(List<String> question) {
-  return question[3];
+  return question[2];
 }

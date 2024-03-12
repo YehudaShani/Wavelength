@@ -44,35 +44,34 @@ class _RadialSliderState extends State<RadialSlider> {
         widget.onChange(value.toInt());
       },
     );
-    return SizedBox(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Center(child: slider),
-          Positioned(
-            bottom: 20,
-            left: 30,
-            child: Text(
-              widget.bottomLabel,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 24,
+    return Stack(
+      children: [
+        Center(child: slider),
+        Positioned(
+          bottom: 20,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                widget.bottomLabel,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 24,
+                ),
               ),
-            ),
+              Text(
+                widget.topLabel,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 24,
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            bottom: 20,
-            right: 60,
-            child: Text(
-              widget.topLabel,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 24,
-              ),
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
