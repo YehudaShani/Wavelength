@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class RadialSlider extends StatefulWidget {
-  const RadialSlider({super.key, required this.onChange});
+  const RadialSlider(
+      {super.key,
+      required this.onChange,
+      required this.bottomLabel,
+      required this.topLabel});
   final Function onChange;
+  final String bottomLabel;
+  final String topLabel;
 
   @override
   State<RadialSlider> createState() => _RadialSliderState();
@@ -38,37 +44,39 @@ class _RadialSliderState extends State<RadialSlider> {
         widget.onChange(value.toInt());
       },
     );
-    return SizedBox(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Center(child: slider),
-          Positioned(
-            bottom: 20,
-            left: 60,
-            child: Center(
-              child: Text(
-                'Minutes',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 24,
+    return Stack(
+      children: [
+        Center(child: slider),
+        Positioned(
+          bottom: 20,
+          left: 0,
+          right: 0,
+          child: FittedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(width: 20),
+                Text(
+                  widget.bottomLabel,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
                 ),
-              ),
+                SizedBox(width: 30),
+                Text(
+                  widget.topLabel,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
             ),
           ),
-          Positioned(
-            bottom: 20,
-            right: 80,
-            child: Text(
-              'Other',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 24,
-              ),
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

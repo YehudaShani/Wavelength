@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/questions.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
+import 'package:wavelength/utils/question_utils.dart';
 
-Map<String, dynamic> questionsData = wavelengthData;
+List<List<String>> questionsData = makeQuestionList(wavelengthData);
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -19,7 +20,16 @@ class _GameScreenState extends State<GameScreen> {
   var target = 0;
   var score = 0;
   bool isGuessing = false;
-  TextEditingController guessController = TextEditingController();
+  List<List<String>> questionsData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateTarget(Random().nextInt(10) + 1);
+    questionsData = makeQuestionList(wavelengthData);
+    questionsData.shuffle();
+    print(questionsData);
+  }
 
   void updateGuess(int newGuess) {
     setState(() {
@@ -40,8 +50,8 @@ class _GameScreenState extends State<GameScreen> {
       });
     }
     updateTarget(Random().nextInt(10) + 1);
-    guessController.clear();
     changePlayer();
+    nextQuestion();
   }
 
   void changePlayer() {
@@ -50,8 +60,23 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  void nextQuestion() {
+    setState(() {
+      questionsData.removeAt(0);
+    });
+    if (questionsData.isEmpty) {
+      questionsData = makeQuestionList(wavelengthData);
+      questionsData.shuffle();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String topic = getQuestionTopic(questionsData[0]);
+    String scale = getQuestionScale(questionsData[0]);
+    String bottomLabel = getQuestionBottomLabel(questionsData[0]);
+    String topLabel = getQuestionTopLabel(questionsData[0]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wavelength'),
@@ -63,15 +88,20 @@ class _GameScreenState extends State<GameScreen> {
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.left,
           ),
-          const QuestionWidget(category: "Pets", subCategory: "Cuteness"),
+          QuestionWidget(category: topic, subCategory: scale),
           Text('The target is $target'),
           Text('your guess is $guess'),
           isGuessing
               ? Column(children: [
-                  RadialSlider(onChange: updateGuess),
-                  ElevatedButton(onPressed: checkGuess, child: const Text('Submit')),
+                  RadialSlider(
+                      onChange: updateGuess,
+                      bottomLabel: bottomLabel,
+                      topLabel: topLabel),
+                  ElevatedButton(
+                      onPressed: checkGuess, child: const Text('Submit')),
                 ])
-              : IconButton(onPressed: changePlayer, icon: const Icon(Icons.check)),
+              : IconButton(
+                  onPressed: changePlayer, icon: const Icon(Icons.check)),
         ],
       ),
     );
