@@ -10,18 +10,18 @@ class HostSetupScreen extends StatefulWidget {
 class _HostSetupScreenState extends State<HostSetupScreen> {
   final databaseReference = FirebaseDatabase.instance.ref();
 
-  String gameName = '';
-  String gameDescription = '';
+  String playerName = '';
 
-  void saveGameInfo() {
+  void startGame() {
     print('Saving Game Info');
-    print(databaseReference.child('game').toString());
     databaseReference
-        .child('game')
+        .child('games')
         .push()
         .set({
-          'name': 'gameName',
-          'description': 'gameDescription',
+          'host': playerName,
+          'players': [playerName],
+          'rounds': 5,
+          'currentQuestion': 0,
         })
         .then((value) => print('Game Info Saved'))
         .catchError((error) => print('Failed to save game info: $error'));
@@ -30,41 +30,33 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Host Setup'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Game Name',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  gameName = value;
-                });
-              },
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Game Description',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  gameDescription = value;
-                });
-              },
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: saveGameInfo,
-              child: Text('Save Game Info'),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text('Host Setup'),
         ),
-      ),
-    );
+        body: Padding(
+          padding: EdgeInsets.all(40),
+          child: Column(children: [
+            Center(
+              child: Text(
+                'Ready to host a game?',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              onChanged: (value) {
+                playerName = value;
+              },
+              decoration: InputDecoration(
+                labelText: 'Enter your name',
+                labelStyle: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+            SizedBox(height: 60),
+            ElevatedButton(onPressed: startGame, child: Text('Start Game')),
+          ]),
+        ));
   }
 }
