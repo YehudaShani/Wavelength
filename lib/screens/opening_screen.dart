@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wavelength/screens/host_setup_screen.dart';
 
 class OpeningScreen extends StatelessWidget {
   const OpeningScreen({Key? key}) : super(key: key);
@@ -23,7 +24,9 @@ class OpeningScreen extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // TODO: Add logic to start the game
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const HostSetupScreen();
+                }));
               },
               child: Text('Host Game'),
             ),

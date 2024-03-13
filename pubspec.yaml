@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: 6.1.0
   sleek_circular_slider: ^2.0.1
+  firebase_database: ^10.4.0
+  firebase_core: ^2.24.2
 
 dev_dependencies:
   flutter_test:
