@@ -27,7 +27,7 @@ class _RadialSliderState extends State<RadialSlider> {
           ),
           modifier: (double value) {
             final roundedValue = value.toInt().toString();
-            return '$roundedValue';
+            return roundedValue;
           },
         ),
         size: 300,
@@ -55,7 +55,7 @@ class _RadialSliderState extends State<RadialSlider> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Text(
                   widget.bottomLabel,
                   style: TextStyle(
@@ -63,7 +63,7 @@ class _RadialSliderState extends State<RadialSlider> {
                     fontSize: 24,
                   ),
                 ),
-                SizedBox(width: 30),
+                const SizedBox(width: 30),
                 Text(
                   widget.topLabel,
                   style: TextStyle(
@@ -71,7 +71,7 @@ class _RadialSliderState extends State<RadialSlider> {
                     fontSize: 24,
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ],
             ),
           ),
