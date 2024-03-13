@@ -9,7 +9,8 @@ import 'package:wavelength/utils/question_utils.dart';
 List<List<String>> questionsData = makeQuestionList(wavelengthData);
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  const GameScreen({super.key, required this.gameId});
+  final String gameId;
 
   @override
   State<GameScreen> createState() => _GameScreenState();

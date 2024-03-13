@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:wavelength/screens/game_screen.dart';
 
 class JoiningScreen extends StatefulWidget {
   const JoiningScreen({Key? key}) : super(key: key);
@@ -32,6 +33,12 @@ class _JoiningScreenState extends State<JoiningScreen> {
         databaseReference.child('games').child(gameId).update({
           'players': [...players, name],
         }).then((value) => print('Player added to game'));
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) {
+          return GameScreen(
+            gameId: gameId,
+          );
+        }), (route) => false);
       } else {
         print('Game Not Found');
         print(gameId);
