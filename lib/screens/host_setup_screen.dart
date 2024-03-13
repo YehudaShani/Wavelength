@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+
+final random = Random();
 
 class HostSetupScreen extends StatefulWidget {
   const HostSetupScreen({Key? key}) : super(key: key);
@@ -9,6 +13,7 @@ class HostSetupScreen extends StatefulWidget {
 
 class _HostSetupScreenState extends State<HostSetupScreen> {
   final databaseReference = FirebaseDatabase.instance.ref();
+  final gameNumber = random.nextInt(100000).toString();
 
   String playerName = '';
 
@@ -16,7 +21,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
     print('Saving Game Info');
     databaseReference
         .child('games')
-        .push()
+        .child(gameNumber)
         .set({
           'host': playerName,
           'players': [playerName],
@@ -31,10 +36,10 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Host Setup'),
+          title: const Text('Host Setup'),
         ),
         body: Padding(
-          padding: EdgeInsets.all(40),
+          padding: const EdgeInsets.all(40),
           child: Column(children: [
             Center(
               child: Text(
@@ -44,7 +49,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
                     ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               onChanged: (value) {
                 playerName = value;
@@ -54,8 +59,9 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
                 labelStyle: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            SizedBox(height: 60),
-            ElevatedButton(onPressed: startGame, child: Text('Start Game')),
+            const SizedBox(height: 60),
+            ElevatedButton(
+                onPressed: startGame, child: const Text('Start Game')),
           ]),
         ));
   }

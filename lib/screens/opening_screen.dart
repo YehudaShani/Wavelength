@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wavelength/screens/host_setup_screen.dart';
+import 'package:wavelength/screens/joining_screen.dart';
 
 class OpeningScreen extends StatelessWidget {
   const OpeningScreen({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class OpeningScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
-        title: Text('Game Title'),
+        title: const Text('Game Title'),
       ),
       body: Center(
         child: Column(
@@ -21,21 +22,23 @@ class OpeningScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const HostSetupScreen();
                 }));
               },
-              child: Text('Host Game'),
+              child: const Text('Host Game'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // TODO: Add logic to start the game
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const JoiningScreen();
+                }));
               },
-              child: Text('Join Game'),
+              child: const Text('Join Game'),
             ),
           ],
         ),

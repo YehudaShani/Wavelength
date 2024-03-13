@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wavelength/screens/game_screen.dart';
 import 'package:wavelength/screens/opening_screen.dart';
 import 'firebase_options.dart';
 
