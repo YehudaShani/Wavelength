@@ -99,6 +99,8 @@ class _GameScreenState extends State<GameScreen> {
             final scale = getQuestionScale(questionData);
             final bottomLabel = getQuestionBottomLabel(questionData);
             final topLabel = getQuestionTopLabel(questionData);
+            final active =
+                snapshot.data!['current player'] == widget.playerName;
             return Column(
               children: [
                 Text(
@@ -109,7 +111,7 @@ class _GameScreenState extends State<GameScreen> {
                 QuestionWidget(category: topic, subCategory: scale),
                 Text('The target is $target'),
                 Text('your guess is $guess'),
-                isGuessing
+                active
                     ? Column(children: [
                         RadialSlider(
                             onChange: updateGuess,
