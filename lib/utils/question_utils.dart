@@ -25,3 +25,17 @@ String getQuestionBottomLabel(List<String> question) {
 String getQuestionTopLabel(List<String> question) {
   return question[2];
 }
+
+Map<dynamic, dynamic> buildGameMap(
+    List<List<String>> questionsData, List<String> players, int rounds) {
+  var game = {};
+  for (int i = 0; i < players.length * rounds; i++) {
+    game[i] = {
+      'questionsData': questionsData,
+      'current player': players[i % players.length],
+      'round': i,
+      'phase': 'guessing',
+    };
+  }
+  return game;
+}

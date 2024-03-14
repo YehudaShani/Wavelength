@@ -30,6 +30,11 @@ class _JoiningScreenState extends State<JoiningScreen> {
           print('Player already in game');
           return;
         }
+        final canJoin = game['players joining'] as bool;
+        if (!canJoin) {
+          print('Game already started');
+          return;
+        }
         databaseReference.child('games').child(gameId).update({
           'players': [...players, name],
         }).then((value) => print('Player added to game'));
@@ -37,6 +42,7 @@ class _JoiningScreenState extends State<JoiningScreen> {
             MaterialPageRoute(builder: (context) {
           return GameScreen(
             gameId: gameId,
+            playerName: name,
           );
         }), (route) => false);
       } else {

@@ -6,11 +6,10 @@ import 'package:wavelength/questions.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
 import 'package:wavelength/utils/question_utils.dart';
 
-List<List<String>> questionsData = makeQuestionList(wavelengthData);
-
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key, required this.gameId});
+  const GameScreen({super.key, required this.gameId, required this.playerName});
   final String gameId;
+  final String playerName;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -20,15 +19,14 @@ class _GameScreenState extends State<GameScreen> {
   var guess = 0;
   var target = 0;
   var score = 0;
+  var round = 1;
   bool isGuessing = false;
-  List<List<String>> questionsData = [];
+  List<List<String>> questionsData = makeQuestionList(wavelengthData);
 
   @override
   void initState() {
     super.initState();
     updateTarget(Random().nextInt(10) + 1);
-    questionsData = makeQuestionList(wavelengthData);
-    questionsData.shuffle();
     print(questionsData);
   }
 
