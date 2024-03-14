@@ -57,7 +57,7 @@ class _GameScreenState extends State<GameScreen> {
     }
     updateTarget(Random().nextInt(10) + 1);
     changePlayer();
-    // nextQuestion();
+    saveGuess(widget.gameId, widget.playerName, guess);
   }
 
   void changePlayer() {
@@ -99,8 +99,8 @@ class _GameScreenState extends State<GameScreen> {
             final scale = getQuestionScale(questionData);
             final bottomLabel = getQuestionBottomLabel(questionData);
             final topLabel = getQuestionTopLabel(questionData);
-            final active =
-                snapshot.data!['current player'] == widget.playerName;
+            final passive =
+                snapshot.data!['current player'] != widget.playerName;
             return Column(
               children: [
                 Text(
@@ -111,7 +111,7 @@ class _GameScreenState extends State<GameScreen> {
                 QuestionWidget(category: topic, subCategory: scale),
                 Text('The target is $target'),
                 Text('your guess is $guess'),
-                active
+                passive
                     ? Column(children: [
                         RadialSlider(
                             onChange: updateGuess,

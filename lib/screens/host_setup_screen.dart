@@ -33,7 +33,9 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
           'players': [playerName],
           'rounds': 5,
           'players joining': true,
-          'current round': 1,
+          'current round': 0,
+          'current player': playerName,
+          'guesses': {},
         })
         .then((value) => print('Game Info Saved'))
         .catchError((error) => print('Failed to save game info: $error'));
