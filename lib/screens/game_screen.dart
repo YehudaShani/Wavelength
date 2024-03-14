@@ -79,6 +79,7 @@ class _GameScreenState extends State<GameScreen> {
     String topLabel = getQuestionTopLabel(questionsData[0]);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: const Text('Wavelength'),
       ),

@@ -11,7 +11,16 @@ final theme = ThemeData(
     seedColor: const Color.fromARGB(255, 46, 62, 187),
     secondary: const Color.fromARGB(255, 85, 186, 237),
   ),
-  textTheme: GoogleFonts.latoTextTheme(),
+  textTheme: GoogleFonts.latoTextTheme()
+      .apply(
+        bodyColor: Colors.black,
+        displayColor: Colors.black,
+      )
+      .copyWith(
+        titleLarge: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 46, 62, 187),
     foregroundColor: Colors.white,
