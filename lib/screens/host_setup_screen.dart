@@ -36,6 +36,9 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
           'current round': 0,
           'current player': playerName,
           'guesses': {},
+          'scores': {
+            playerName: 0,
+          }
         })
         .then((value) => print('Game Info Saved'))
         .catchError((error) => print('Failed to save game info: $error'));
@@ -56,7 +59,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
 
     final players = await getPlayers(gameNumber);
     final questionsData = makeQuestionList(wavelengthData);
-    final gameDetails = await buildGameMap(questionsData, players, rounds);
+    final gameDetails = buildGameMap(questionsData, players, rounds);
 
     await databaseReference.child('games').child(gameNumber).update({
       'game phase': gameDetails,
@@ -110,7 +113,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
                   const Text('Waiting for players to join...'),
                   const SizedBox(height: 20),
                   Text('Game ID: $gameNumber'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: startGame,
                     child: const Text('Start Game'),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:wavelength/screens/game_screen.dart';
 import 'package:wavelength/screens/waiting_screen.dart';
 
 class JoiningScreen extends StatefulWidget {
@@ -38,6 +37,8 @@ class _JoiningScreenState extends State<JoiningScreen> {
         }
         databaseReference.child('games').child(gameId).update({
           'players': [...players, name],
+          'scores/$name':
+              0, // Add a new score without deleting the existing scores
         }).then((value) => print('Player added to game'));
 
         Navigator.pushAndRemoveUntil(context,
@@ -74,7 +75,7 @@ class _JoiningScreenState extends State<JoiningScreen> {
                 'Enter Name:',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextField(
                 onChanged: (value) {
                   name = value;

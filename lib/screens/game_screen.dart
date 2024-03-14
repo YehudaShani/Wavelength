@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wavelength/widgets/question.dart';
-import 'package:wavelength/questions.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
 import 'package:wavelength/utils/question_utils.dart';
 import 'package:wavelength/utils/firebase_utils.dart';
@@ -23,15 +21,9 @@ class _GameScreenState extends State<GameScreen> {
   var target = 0;
   var score = 0;
   var round = 0;
-  bool isGuessing = false;
+  bool isGuessing = true;
   List<String> questionData = [];
   final databaseReference = FirebaseDatabase.instance.ref();
-
-  @override
-  void initState() {
-    super.initState();
-    updateTarget(Random().nextInt(10) + 1);
-  }
 
   Future<List<String>> updateQuestion() async {
     return await getQuestionData(widget.gameId);
@@ -43,21 +35,17 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void updateTarget(int newTarget) {
-    setState(() {
-      target = newTarget;
-    });
-  }
-
   void checkGuess() {
-    if (guess == target) {
-      setState(() {
-        score += 1;
-      });
+    int grade = 250 - pow((target - guess), 2) as int;
+    if (grade < 0) {
+      grade = 0;
     }
-    updateTarget(Random().nextInt(10) + 1);
+    if (guess == target) {
+      grade = 500;
+    }
     changePlayer();
     saveGuess(widget.gameId, widget.playerName, guess);
+    addPointsToPlayer(widget.gameId, widget.playerName, grade);
   }
 
   void changePlayer() {
@@ -89,6 +77,7 @@ class _GameScreenState extends State<GameScreen> {
             .onValue
             .map((event) => event.snapshot.value as Map<dynamic, dynamic>),
         builder: (context, snapshot) {
+          round = snapshot.data!['current round'];
           if (snapshot.hasData) {
             questionData =
                 (snapshot.data!['game phase'][round]['questionsData'] as List)
@@ -101,6 +90,10 @@ class _GameScreenState extends State<GameScreen> {
             final topLabel = getQuestionTopLabel(questionData);
             final passive =
                 snapshot.data!['current player'] != widget.playerName;
+            target = snapshot.data!['game phase'][round]['target'];
+            score = snapshot.data!['scores'][widget.playerName];
+            isGuessing = snapshot.data!['guesses'] == null ||
+                !snapshot.data!['guesses'].containsKey(widget.playerName);
             return Column(
               children: [
                 Text(
@@ -111,17 +104,23 @@ class _GameScreenState extends State<GameScreen> {
                 QuestionWidget(category: topic, subCategory: scale),
                 Text('The target is $target'),
                 Text('your guess is $guess'),
-                passive
-                    ? Column(children: [
-                        RadialSlider(
-                            onChange: updateGuess,
-                            bottomLabel: bottomLabel,
-                            topLabel: topLabel),
-                        ElevatedButton(
-                            onPressed: checkGuess, child: const Text('Submit')),
-                      ])
-                    : IconButton(
-                        onPressed: changePlayer, icon: const Icon(Icons.check)),
+                if (passive && isGuessing)
+                  Column(children: [
+                    RadialSlider(
+                        onChange: updateGuess,
+                        bottomLabel: bottomLabel,
+                        topLabel: topLabel),
+                    ElevatedButton(
+                        onPressed: checkGuess, child: const Text('Submit')),
+                  ])
+                else if (passive && !isGuessing)
+                  const Column(children: [
+                    Text('Your guess has been submitted!'),
+                    Text('Waiting for other players to guess'),
+                  ])
+                else
+                  IconButton(
+                      onPressed: changePlayer, icon: const Icon(Icons.check)),
               ],
             );
           } else {

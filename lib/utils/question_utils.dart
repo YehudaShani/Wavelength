@@ -1,5 +1,9 @@
 // merge all questions and categories into one list
 
+import 'dart:math';
+
+final random = Random();
+
 List<List<String>> makeQuestionList(Map<String, dynamic> questionsData) {
   final List<List<String>> questionList = [];
   for (var topic in questionsData['topics']) {
@@ -36,6 +40,7 @@ Map<dynamic, dynamic> buildGameMap(
       'current player': players[i % players.length],
       'round': i,
       'phase': 'guessing',
+      'target': random.nextInt(100) + 1,
     };
   }
   return game;

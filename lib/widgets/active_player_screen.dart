@@ -12,10 +12,10 @@ class _ActivePlayerState extends State<ActivePlayer> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text('It is your turn to give the hint!'),
-      SizedBox(height: 16),
+      const Text('It is your turn to give the hint!'),
+      const SizedBox(height: 16),
       Text('The word is: ${widget.questionData[0]}'),
-      SizedBox(height: 16),
+      const SizedBox(height: 16),
     ]);
   }
 }

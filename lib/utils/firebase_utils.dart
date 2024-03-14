@@ -43,7 +43,7 @@ Future<List<String>> getQuestionData(String gameId) async {
 }
 
 void saveGuess(String gameId, String playerName, int guess) async {
-  databaseReference.child('games').child(gameId).child('guesses').update({
+  await databaseReference.child('games').child(gameId).child('guesses').update({
     playerName: guess,
   });
   final players = await getPlayers(gameId);
@@ -52,19 +52,22 @@ void saveGuess(String gameId, String playerName, int guess) async {
   final amountOfGuesses = guesses.length;
   print(amountOfPlayers);
   if (amountOfPlayers == amountOfGuesses + 1) {
-    databaseReference.child('games').child(gameId).child('guesses').remove();
-
-    final round = await databaseReference
-        .child('games')
-        .child(gameId)
-        .child('current round')
-        .get();
-
-    databaseReference.child('games').child(gameId).update({
-      'current round': (round.value as int) + 1,
-    });
-    changeToNextPlayer(gameId);
+    startNextRound(gameId);
   }
+}
+
+void addPointsToPlayer(String gameId, String playerName, int points) async {
+  final score = (await databaseReference
+          .child('games')
+          .child(gameId)
+          .child('scores')
+          .child(playerName)
+          .get())
+      .value as int;
+
+  await databaseReference.child('games').child(gameId).child('scores').update({
+    playerName: score + points,
+  });
 }
 
 void changeToNextPlayer(String gameId) async {
@@ -81,4 +84,33 @@ void changeToNextPlayer(String gameId) async {
       .child('games')
       .child(gameId)
       .update({'current player': nextPlayer});
+}
+
+void startNextRound(String gameId) async {
+  final round = await databaseReference
+      .child('games')
+      .child(gameId)
+      .child('current round')
+      .get();
+  final currentRound = round.value as int;
+  final rounds = await databaseReference
+      .child('games')
+      .child(gameId)
+      .child('rounds')
+      .get();
+  final amountOfRounds = rounds.value as int;
+  if (currentRound == amountOfRounds) {
+    endGame(gameId);
+  } else {
+    databaseReference.child('games').child(gameId).child('guesses').remove();
+
+    databaseReference.child('games').child(gameId).update({
+      'current round': currentRound + 1,
+    });
+    changeToNextPlayer(gameId);
+  }
+}
+
+void endGame(String gameId) {
+  //TODO: implement end game
 }
