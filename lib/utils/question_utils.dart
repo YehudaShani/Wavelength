@@ -7,6 +7,7 @@ List<List<String>> makeQuestionList(Map<String, dynamic> questionsData) {
       questionList.add([topic, scale, ...questionsData['scaleValues'][scale]]);
     }
   }
+  questionList.shuffle();
   return questionList;
 }
 
@@ -31,7 +32,7 @@ Map<dynamic, dynamic> buildGameMap(
   var game = {};
   for (int i = 0; i < players.length * rounds; i++) {
     game[i] = {
-      'questionsData': questionsData,
+      'questionsData': questionsData[i],
       'current player': players[i % players.length],
       'round': i,
       'phase': 'guessing',

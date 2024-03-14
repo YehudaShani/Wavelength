@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:wavelength/screens/game_screen.dart';
+import 'package:wavelength/utils/firebase_utils.dart';
+import 'package:wavelength/utils/question_utils.dart';
+import 'package:wavelength/questions.dart';
 
 final random = Random();
+const rounds = 2;
 
 class HostSetupScreen extends StatefulWidget {
   const HostSetupScreen({Key? key}) : super(key: key);
@@ -14,7 +18,7 @@ class HostSetupScreen extends StatefulWidget {
 
 class _HostSetupScreenState extends State<HostSetupScreen> {
   final databaseReference = FirebaseDatabase.instance.ref();
-  final gameNumber = random.nextInt(100000).toString();
+  var gameNumber = random.nextInt(100000).toString();
   bool gameCreated = false;
 
   String playerName = '';
@@ -29,6 +33,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
           'players': [playerName],
           'rounds': 5,
           'players joining': true,
+          'current round': 1,
         })
         .then((value) => print('Game Info Saved'))
         .catchError((error) => print('Failed to save game info: $error'));
@@ -37,7 +42,7 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
     });
   }
 
-  void startGame() {
+  void startGame() async {
     databaseReference
         .child('games')
         .child(gameNumber)
@@ -46,6 +51,14 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
         })
         .then((value) => print('Game Started'))
         .catchError((error) => print('Failed to start game: $error'));
+
+    final players = await getPlayers(gameNumber);
+    final questionsData = makeQuestionList(wavelengthData);
+    final gameDetails = await buildGameMap(questionsData, players, rounds);
+
+    await databaseReference.child('games').child(gameNumber).update({
+      'game phase': gameDetails,
+    });
 
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
       return GameScreen(
