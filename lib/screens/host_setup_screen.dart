@@ -8,7 +8,7 @@ import 'package:wavelength/utils/question_utils.dart';
 import 'package:wavelength/questions.dart';
 
 final random = Random();
-const rounds = 2;
+const turns = 2;
 
 class HostSetupScreen extends StatefulWidget {
   const HostSetupScreen({Key? key}) : super(key: key);
@@ -31,7 +31,6 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
         .set({
           'host': playerName,
           'players': [playerName],
-          'rounds': 5,
           'players joining': true,
           'current round': 0,
           'current player': playerName,
@@ -59,10 +58,11 @@ class _HostSetupScreenState extends State<HostSetupScreen> {
 
     final players = await getPlayers(gameNumber);
     final questionsData = makeQuestionList(wavelengthData);
-    final gameDetails = buildGameMap(questionsData, players, rounds);
+    final gameDetails = buildGameMap(questionsData, players, turns);
 
     await databaseReference.child('games').child(gameNumber).update({
       'game phase': gameDetails,
+      'rounds': players.length * turns,
     });
 
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {

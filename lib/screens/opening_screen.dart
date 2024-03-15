@@ -9,7 +9,7 @@ class OpeningScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
-        title: const Text('Game Title'),
+        title: const Text('WaveLength'),
       ),
       body: Center(
         child: Column(

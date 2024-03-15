@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:wavelength/widgets/end_screen.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
 import 'package:wavelength/utils/question_utils.dart';
@@ -77,8 +78,14 @@ class _GameScreenState extends State<GameScreen> {
             .onValue
             .map((event) => event.snapshot.value as Map<dynamic, dynamic>),
         builder: (context, snapshot) {
-          round = snapshot.data!['current round'];
           if (snapshot.hasData) {
+            round = snapshot.data!['current round'];
+            final ended = snapshot.data!['rounds'] == round;
+            if (ended) {
+              final scores = snapshot.data!['scores'].map<String, int>(
+                  (key, value) => MapEntry(key.toString(), value as int));
+              return EndGame(scores: scores);
+            }
             questionData =
                 (snapshot.data!['game phase'][round]['questionsData'] as List)
                     .map((question) => question.toString())
@@ -94,6 +101,7 @@ class _GameScreenState extends State<GameScreen> {
             score = snapshot.data!['scores'][widget.playerName];
             isGuessing = snapshot.data!['guesses'] == null ||
                 !snapshot.data!['guesses'].containsKey(widget.playerName);
+
             return Column(
               children: [
                 Text(
