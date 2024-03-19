@@ -62,6 +62,7 @@ class _JoiningScreenState extends State<JoiningScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: const Text('Join Game'),
       ),

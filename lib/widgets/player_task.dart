@@ -38,31 +38,22 @@ class PlayerTask extends StatelessWidget {
               ),
             ),
           ),
-          if (isGuesser)
-            const Text(
-              'Waiting for your turn',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          else
-            Positioned(
-              top: 30,
-              left: 0,
-              right: 0,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  isGuesser ? 'Guessing!' : 'Hinting!',
-                  style: GoogleFonts.kavivanar(
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold,
-                    color: isGuesser ? Colors.green : Colors.red[400],
-                  ),
+          Positioned(
+            top: 30,
+            left: 0,
+            right: 0,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                isGuesser ? 'Guessing!' : 'Hinting!',
+                style: GoogleFonts.kavivanar(
+                  fontSize: 70,
+                  fontWeight: FontWeight.bold,
+                  color: isGuesser ? Colors.green : Colors.red[400],
                 ),
               ),
             ),
+          ),
         ],
       ),
     );

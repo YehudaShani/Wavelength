@@ -129,11 +129,12 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   PlayerTask(isGuesser: passive),
+                  const SizedBox(height: 20),
                   QuestionWidget(category: topic, subCategory: scale),
-                  Text('The target is $target'),
-                  Text('your guess is $guess'),
+                  // Text('The target is $target'),
+                  // Text('your guess is $guess'),
                   if (passive && isGuessing)
                     Column(children: [
                       RadialSlider(
@@ -149,8 +150,12 @@ class _GameScreenState extends State<GameScreen> {
                       Text('Waiting for other players to guess'),
                     ])
                   else
-                    IconButton(
-                        onPressed: changePlayer, icon: const Icon(Icons.check)),
+                    IgnorePointer(
+                        child: RadialSlider(
+                            onChange: () {},
+                            bottomLabel: bottomLabel,
+                            topLabel: topLabel,
+                            initialValue: target)),
                 ],
               ),
             );

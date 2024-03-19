@@ -11,22 +11,41 @@ class QuestionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          category,
-          style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                fontFamily: GoogleFonts.pressStart2p().fontFamily,
+    return Container(
+      height: 100,
+      width: double.infinity,
+      child: Stack(
+        children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text("The category is:",
+                  style: GoogleFonts.originalSurfer(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 0,
+            right: 0,
+            child: FittedBox(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  category,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.originalSurfer(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-        ),
-        Text(
-          ('The scale in use is $subCategory!'),
-          style: Theme.of(context).textTheme.displaySmall,
-          textAlign: TextAlign.center,
-        ),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

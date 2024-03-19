@@ -6,10 +6,12 @@ class RadialSlider extends StatefulWidget {
       {super.key,
       required this.onChange,
       required this.bottomLabel,
-      required this.topLabel});
+      required this.topLabel,
+      this.initialValue = 50});
   final Function onChange;
   final String bottomLabel;
   final String topLabel;
+  final int initialValue;
 
   @override
   State<RadialSlider> createState() => _RadialSliderState();
@@ -19,6 +21,7 @@ class _RadialSliderState extends State<RadialSlider> {
   @override
   Widget build(BuildContext context) {
     final slider = SleekCircularSlider(
+      initialValue: widget.initialValue.toDouble(),
       appearance: CircularSliderAppearance(
         infoProperties: InfoProperties(
           mainLabelStyle: TextStyle(
@@ -39,6 +42,7 @@ class _RadialSliderState extends State<RadialSlider> {
           ],
           trackColor: Theme.of(context).colorScheme.secondary,
         ),
+        // animationEnabled: false,
       ),
       onChange: (double value) {
         widget.onChange(value.toInt());
@@ -48,7 +52,7 @@ class _RadialSliderState extends State<RadialSlider> {
       children: [
         Center(child: slider),
         Positioned(
-          bottom: 20,
+          bottom: 40,
           left: 0,
           right: 0,
           child: FittedBox(
