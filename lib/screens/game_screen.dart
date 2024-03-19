@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wavelength/widgets/end_screen.dart';
+import 'package:wavelength/widgets/player_task.dart';
 import 'package:wavelength/widgets/question.dart';
 import 'package:wavelength/widgets/radial_slider.dart';
 import 'package:wavelength/utils/question_utils.dart';
@@ -68,6 +70,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: const Text('Wavelength'),
       ),
@@ -102,34 +105,54 @@ class _GameScreenState extends State<GameScreen> {
             isGuessing = snapshot.data!['guesses'] == null ||
                 !snapshot.data!['guesses'].containsKey(widget.playerName);
 
-            return Column(
-              children: [
-                Text(
-                  'Your score is $score',
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.left,
-                ),
-                QuestionWidget(category: topic, subCategory: scale),
-                Text('The target is $target'),
-                Text('your guess is $guess'),
-                if (passive && isGuessing)
-                  Column(children: [
-                    RadialSlider(
-                        onChange: updateGuess,
-                        bottomLabel: bottomLabel,
-                        topLabel: topLabel),
-                    ElevatedButton(
-                        onPressed: checkGuess, child: const Text('Submit')),
-                  ])
-                else if (passive && !isGuessing)
-                  const Column(children: [
-                    Text('Your guess has been submitted!'),
-                    Text('Waiting for other players to guess'),
-                  ])
-                else
-                  IconButton(
-                      onPressed: changePlayer, icon: const Icon(Icons.check)),
-              ],
+            return Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Score: $score',
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                fontFamily:
+                                    GoogleFonts.pressStart2p().fontFamily,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  PlayerTask(isGuesser: passive),
+                  QuestionWidget(category: topic, subCategory: scale),
+                  Text('The target is $target'),
+                  Text('your guess is $guess'),
+                  if (passive && isGuessing)
+                    Column(children: [
+                      RadialSlider(
+                          onChange: updateGuess,
+                          bottomLabel: bottomLabel,
+                          topLabel: topLabel),
+                      ElevatedButton(
+                          onPressed: checkGuess, child: const Text('Submit')),
+                    ])
+                  else if (passive && !isGuessing)
+                    const Column(children: [
+                      Text('Your guess has been submitted!'),
+                      Text('Waiting for other players to guess'),
+                    ])
+                  else
+                    IconButton(
+                        onPressed: changePlayer, icon: const Icon(Icons.check)),
+                ],
+              ),
             );
           } else {
             return const CircularProgressIndicator();

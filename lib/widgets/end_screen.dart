@@ -17,9 +17,21 @@ class EndGame extends StatelessWidget {
             shrinkWrap: true,
             itemCount: sortedScores.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(sortedScores[index].key),
-                trailing: Text(sortedScores[index].value.toString()),
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Text(
+                      index.toString(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  title: Text(sortedScores[index].key),
+                  trailing: Text(sortedScores[index].value.toString()),
+                ),
               );
             },
           ),
