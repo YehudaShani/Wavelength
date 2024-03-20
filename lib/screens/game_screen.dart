@@ -130,9 +130,12 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  QuestionWidget(category: topic, subCategory: scale),
+
+                  const SizedBox(height: 20),
                   PlayerTask(isGuesser: passive),
                   const SizedBox(height: 20),
-                  QuestionWidget(category: topic, subCategory: scale),
+
                   // Text('The target is $target'),
                   // Text('your guess is $guess'),
                   if (passive && isGuessing)
@@ -151,16 +154,19 @@ class _GameScreenState extends State<GameScreen> {
                     ])
                   else
                     IgnorePointer(
-                        child: RadialSlider(
-                            onChange: () {},
-                            bottomLabel: bottomLabel,
-                            topLabel: topLabel,
-                            initialValue: target)),
+                      child: RadialSlider(
+                        onChange: () {},
+                        bottomLabel: bottomLabel,
+                        topLabel: topLabel,
+                        initialValue: target,
+                        isGuessing: false,
+                      ),
+                    ),
                 ],
               ),
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

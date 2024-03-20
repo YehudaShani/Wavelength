@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wavelength/screens/opening_screen.dart';
 
 class EndGame extends StatelessWidget {
   const EndGame({super.key, required this.scores});
@@ -43,7 +44,17 @@ class EndGame extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) {
+                  return const OpeningScreen();
+                }), (route) => false);
+              },
+              label: const Text('Restart Game'),
+              icon: const Icon(Icons.refresh),
+            ),
           ],
         ),
       ),

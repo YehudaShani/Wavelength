@@ -37,6 +37,7 @@ class _WaitingScreenState extends State<WaitingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircularProgressIndicator(),
+                  SizedBox(height: 16),
                   Text('Waiting for game to start...'),
                 ],
               ),
