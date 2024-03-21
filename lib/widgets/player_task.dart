@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class PlayerTask extends StatelessWidget {
+  const PlayerTask({super.key, required this.isGuesser});
+  final bool isGuesser;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130,
+      width: double.infinity,
+      child: Stack(
+        children: [
+          Positioned(
+            left: null,
+            right: null,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                "You are...",
+                style: GoogleFonts.amaticSc(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: 0,
+            right: 0,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                isGuesser ? 'Guessing!' : 'Hinting!',
+                style: GoogleFonts.kavivanar(
+                  fontSize: 70,
+                  fontWeight: FontWeight.bold,
+                  color: isGuesser ? Colors.green : Colors.red[400],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
